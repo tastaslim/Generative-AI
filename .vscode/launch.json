@@ -1,0 +1,25 @@
+{
+    "version": "1.0.0",
+    "configurations": [
+        {
+            "name": "Gen AI",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/main.py",
+            "cwd": "${workspaceFolder}/src",
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src",
+                "PORT": "9000"
+            },
+            "justMyCode": false,
+            "args": [
+                "-e",
+                "LOCAL",
+                "-p",
+                "9000",
+                "-r"
+            ]
+        }
+    ]
+}
