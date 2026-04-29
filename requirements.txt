@@ -2,3 +2,5 @@ tiktoken
 google-genai
 openai
 python-dotenv
+anthropic
+groq
