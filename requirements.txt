@@ -1,1 +1,4 @@
 tiktoken
+google-genai
+openai
+python-dotenv
