@@ -186,8 +186,147 @@ def runMultiplePrompts(llmProvider: BaseChatModel) -> None:
         print(res)
 
 
+# Now let's do this right way, using chaining in LangChain
+def runStaticPromptChain(llmProvider: BaseChatModel) -> None:
+    """
+    Runs the static prompt using LangChain's pipe operator.
+
+    Chains the static prompt template directly with the LLM provider
+    and an output parser using the ``|`` operator.
+
+    :param llmProvider: The LLM backend to invoke.
+    :type llmProvider: BaseChatModel
+    """
+    staticPrompt: ChatPromptTemplate = ChatPromptTemplate.from_messages(
+        [
+            {
+                "role": "system",
+                "content": "You are a helpful coding assistant. You are a Senior Python Developer.",
+            },
+            {
+                "role": "ai",
+                "content": "Sure! I can help you with Python, Java, and more.",
+            },
+            {
+                "role": "user",
+                "content": "Explain Python with an example.",
+            },
+        ]
+    )
+    chain = staticPrompt | llmProvider
+    print(chain.invoke({}))
+
+
+def runDynamicPromptChain(llmProvider: BaseChatModel) -> None:
+    """
+    Runs dynamic prompts using LangChain's pipe operator with batch execution.
+
+    Chains the dynamic prompt template with the LLM provider and output parser,
+    then runs all topic-language combinations in a single ``batch()`` call.
+
+    :param llmProvider: The LLM backend to invoke.
+    :type llmProvider: BaseChatModel
+    """
+    dynamicPrompt: ChatPromptTemplate = ChatPromptTemplate.from_messages(
+        [
+            {
+                "role": "system",
+                "content": "You are a helpful coding assistant. You are a Senior Python Developer who answers in {language}.",
+            },
+            {
+                "role": "ai",
+                "content": "Sure! I can help you with Python, Java, and more.",
+            },
+            {
+                "role": "user",
+                "content": "Explain {topic} with an example.",
+            },
+        ]
+    )
+    staticPrompt: ChatPromptTemplate = ChatPromptTemplate.from_messages(
+        [
+            {
+                "role": "system",
+                "content": "You are a helpful coding assistant. You are a Senior Python Developer.",
+            },
+            {
+                "role": "ai",
+                "content": "Sure! I can help you with Python, Java, and more.",
+            },
+            {
+                "role": "user",
+                "content": "Explain Python with an example.",
+            },
+        ]
+    )
+    """
+    chain = staticPrompt | dynamicPrompt | llmProvider
+    
+    Above will give error because Every component in a chain has
+    an expected input and output type. Here in chaining the output of first runnable will be passed to next runnable right.
+    dynamicPrompt expects a dict but receives a PromptValue — type mismatch. ❌. Think of it like USB ports:
+    staticPrompt outputs a Type-C plug (PromptValue).
+    dynamicPrompt only accepts a USB-A socket (dict).
+    They don't connect — wrong shape.
+    llmProvider accepts Type-C (PromptValue) — so it connects perfectly.
+    """
+    staticChain = staticPrompt | llmProvider
+    dynamicChain = dynamicPrompt | llmProvider
+    print(staticChain.invoke({}))
+    results = dynamicChain.batch(
+        [
+            {"topic": "RAG", "language": "English"},
+            {"topic": "Gen AI", "language": "Hindi"},
+        ]
+    )
+    for result in results:
+        print(result)
+
+
+def runMultiplePromptsChain(llmProvider: BaseChatModel) -> None:
+    """
+    Runs static and dynamic prompts concurrently using LangChain's batch execution.
+
+    Chains the prompt template with the LLM and output parser using ``|``,
+    then runs all prompts in a single ``batch()`` call — replacing the need
+    for manual ``ThreadPoolExecutor`` and ``LLMPromptTemplate`` wrapping.
+
+    :param llmProvider: The LLM backend to invoke for all prompts.
+    :type llmProvider: BaseChatModel
+    """
+    dynamicPrompt: ChatPromptTemplate = ChatPromptTemplate.from_messages(
+        [
+            {
+                "role": "system",
+                "content": "You are a helpful coding assistant. You are a Senior Python Developer who answers in {language}.",
+            },
+            {
+                "role": "ai",
+                "content": "Sure! I can help you with Python, Java, and more.",
+            },
+            {
+                "role": "user",
+                "content": "Explain {topic} with an example.",
+            },
+        ]
+    )
+    chain = dynamicPrompt | llmProvider
+    results = chain.batch(  # Because chain will also be runnable
+        [
+            {"topic": "Python", "language": "English"},  # static equivalent
+            {"topic": "RAG", "language": "English"},
+            {"topic": "Gen AI", "language": "Hindi"},
+        ]
+    )
+
+    for result in results:
+        print(result)
+
+
 if __name__ == "__main__":
     load_dotenv()
     groqLLMProvider: ChatGroq = ChatGroq(model="llama-3.1-8b-instant")
     openAILLMProvider: ChatOpenAI = ChatOpenAI(model="gpt-4o-mini")
-    runMultiplePrompts(groqLLMProvider)
+    # runMultiplePrompts(groqLLMProvider)
+    # runStaticPromptChain(groqLLMProvider)
+    runDynamicPromptChain(groqLLMProvider)
