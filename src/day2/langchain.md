@@ -147,7 +147,11 @@ embeddings of processed data.
 # Prompts
 
 Generally, the input to LLM is passed as prompts instead of strings.
-There are 2 types of Prompt ==> 1. Static Prompts, 2. Dynamic Prompts
+There are 2 types of Prompt:
+
+1. Static Prompts
+2. Dynamic Prompts
+
 ---
 
 ## 1. Static Prompts
@@ -189,6 +193,9 @@ In LangChain, prompts can be passed as tuples — **(role, message)**.
 "ai" → previous AI response (for conversation history)
 "user" → what the human asks
 
+**Although the tuple way always works but nowadays, the recommended way to create prompts is using dictionary**
+
+**{"role" : role, "content" : message}**
 Example:
 
 ```python
@@ -198,6 +205,12 @@ prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a helpful coding assistant."),
     ("ai", "Sure! I can help you with Python, Java, and more."),
     ("user", "Explain {topic} with an example.")
+])
+
+recommendedWayOfPrompt = ChatPromptTemplate.from_messages([
+    {"role": "system", "content": "You are a helpful coding assistant."},
+    {"role": "ai", "content": "Sure! I can help you with Python, Java, and more."},
+    {"role": "user", "content": "Explain {topic} with an example."}
 ])
 ```
 
@@ -220,6 +233,12 @@ prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a helpful coding assistant/ You are a Senior Python Developer"),
     ("ai", "Sure! I can help you with Python, Java, and more."),
     ("user", "Explain {topic} with an example.")
+])
+
+recommendedWayOfPrompt = ChatPromptTemplate.from_messages([
+    {"role": "system", "content": "You are a helpful coding assistant/ You are a Senior Python Developer"},
+    {"role": "ai", "content": "Sure! I can help you with Python, Java, and more."},
+    {"role": "user", "content": "Explain {topic} with an example."}
 ])
 prompt.invoke({"topic": "RAG"})
 ```
@@ -252,6 +271,13 @@ prompts = [
     ("user", "Write a function to {task}."),
     ("ai", "Sure! Here's the complete Python code with unit tests for {task}...")
 ]
+recommendedWayOfPrompt = [
+    {"role": "system",
+     "content": "You are a Python developer. You only write Python code, always include unit tests, and never give incomplete code."},
+    {"role": "user", "content": "Write a function to {task}."},
+    {"role": "ai", "content": "Sure! Here's the complete Python code with unit tests for {task}..."}
+]
+
 response: AIMessage = llm.invoke(prompts)
 print(response.content)
 ```
