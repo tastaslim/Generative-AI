@@ -33,7 +33,7 @@ It helps you build real-world AI systems, not just chat responses.
 
 # LangChain Components
 
-![LangChain Architecture](LainChain_Architecture.png)
+![LangChain Architecture](../images/LainChain_Architecture.png)
 LangChain organizes its building blocks into seven core categories, each with a distinct responsibility in the AI
 application stack. Understanding these layers is essential for designing modular, maintainable LLM-powered systems.
 
