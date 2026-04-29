@@ -93,7 +93,7 @@ def getDynamicPrompts() -> List[PromptValue]:
             [
                 {
                     "role": "system",
-                    "content": "You are a helpful coding assistant. You are a Senior Python Developer.",
+                    "content": "You are a helpful coding assistant. You are a Senior Python Developer who answers in {language}",
                 },
                 {
                     "role": "ai",
@@ -103,8 +103,12 @@ def getDynamicPrompts() -> List[PromptValue]:
             ]
         )
     )
-    ragPrompt: PromptValue = recommendedWayOfDynamicPrompt.invoke({"topic": "RAG"})
-    genAiPrompt: PromptValue = recommendedWayOfDynamicPrompt.invoke({"topic": "Gen AI"})
+    ragPrompt: PromptValue = recommendedWayOfDynamicPrompt.invoke(
+        {"topic": "RAG", "language": "English"}
+    )
+    genAiPrompt: PromptValue = recommendedWayOfDynamicPrompt.invoke(
+        {"topic": "Gen AI", "language": "Hindi"}
+    )
     return [ragPrompt, genAiPrompt]
 
 
