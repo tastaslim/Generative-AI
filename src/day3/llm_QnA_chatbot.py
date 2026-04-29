@@ -14,5 +14,5 @@ def ChatBotQA(llmProvider: ChatGroq):
 
 if __name__ == "__main__":
     load_dotenv()
-    groqLLM = ChatGroq(model="llama-3.3-70b-versatile")
+    groqLLM: ChatGroq = ChatGroq(model="llama-3.3-70b-versatile")
     ChatBotQA(groqLLM)
