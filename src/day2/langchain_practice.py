@@ -11,7 +11,7 @@ load_dotenv()
 # outputMessage: str | list[str | dict] = response.content
 # print(outputMessage)
 
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite")
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 # response: AIMessage = llm.invoke(
 #     input="How to find the largest number in an array? Provide Python code."
 # )
