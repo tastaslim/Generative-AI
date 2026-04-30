@@ -1,5 +1,4 @@
 from dotenv import load_dotenv
-from langchain_core.messages import AIMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 # from langchain_openai import ChatOpenAI
@@ -25,5 +24,5 @@ prompts = [
     ("user", "How to sort the array?"),
 ]
 
-response: AIMessage = llm.invoke(prompts)
+response = llm.invoke(prompts)
 print(response.content)

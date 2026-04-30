@@ -11,3 +11,5 @@ langchain-google-genai
 langchain-groq
 streamlit
 watchdog
+langchain-redis
+langchain_community
