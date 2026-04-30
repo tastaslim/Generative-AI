@@ -19,24 +19,7 @@ def BasicBotWithMemory(llmProvider: BaseChatModel):
         print(f"AI: {response}")
 
 
-def chatBotQA(llmProvider: BaseChatModel):
-    """
-    Runs a simple terminal-based QA chatbot loop.
-    :param llmProvider: The LLM backend to invoke.
-    :type llmProvider: BaseChatModel
-    """
-    outputParser = StrOutputParser()
-    while True:
-        question: str = input("User: ")
-        if question in ["exit", "quit", "bye"]:
-            print("Goodbye! 👋")
-            break
-        chain = llmProvider | outputParser
-        answer: str = chain.invoke(question)
-        print(f"AI: {answer}")
-
-
-def chatBotQAWithStreamlit(llmProvider: BaseChatModel):
+def chatBotQAWithStreamlitWithMemory(llmProvider: BaseChatModel):
     """
     Runs a Streamlit-based QA chatbot with persistent chat history.
     :param llmProvider: The LLM backend to invoke.
@@ -63,7 +46,6 @@ def chatBotQAWithStreamlit(llmProvider: BaseChatModel):
 if __name__ == "__main__":
     load_dotenv()
     groqLLM: ChatGroq = ChatGroq(model="llama-3.3-70b-versatile")
-    # BasicBotWithMemory(groqLLM)
     # Initialize only once — not on every rerun
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -71,4 +53,4 @@ if __name__ == "__main__":
     st.markdown("My QnA Chat Bot Powered by LLMs like Groq, OpenAI, Gemini etc.")
     if st.button("Send Balloons!"):
         st.balloons()
-    chatBotQAWithStreamlit(groqLLM)
+    chatBotQAWithStreamlitWithMemory(groqLLM)
