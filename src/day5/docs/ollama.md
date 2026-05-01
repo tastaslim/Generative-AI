@@ -1,3 +1,5 @@
+# Groq (specialized AI chips) is distinct from Elon Musk's Grok (AI chatbot)😁.
+
 # Ollama
 
 - **Ollama** is a tool that lets you run AI models locally on your own machine (no internet, no API key), privately
