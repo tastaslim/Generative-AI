@@ -1,6 +1,5 @@
 from typing import Iterator
 
-# from dotenv import load_dotenv
 from langchain_core.language_models import BaseChatModel
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -68,8 +67,6 @@ def getMovieStory(llmProvider: BaseChatModel) -> Iterator:
 
 
 if __name__ == "__main__":
-    # load_dotenv()
-    # openAiLlmProvider: BaseChatModel = ChatOpenAI(model="gpt-5.4")
     gemma4LLMProvider: BaseChatModel = ChatOllama(model="gemma4:e2b")
     movieGenerator = getMovieStory(gemma4LLMProvider)
     for movie in movieGenerator:
