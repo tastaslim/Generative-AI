@@ -27,3 +27,13 @@ print(output)
 
 If you see in above code, we are not providing any API_KEY or loading any API_KEY from env. It is because we have
 installed ollama in our machine and downloaded the Google's open source **gemma4:e2b** model inside it locally.
+
+---
+
+# Ollama Cloud Models
+
+- Ollama’s cloud models are a new kind of model in Ollama that can run without a powerful GPU. Instead, cloud models are
+  automatically offloaded to Ollama’s cloud service while offering the same capabilities as local models, making it
+  possible to keep using your local tools while running larger models that wouldn’t fit on a personal computer.
+
+- Find more details [here](https://docs.ollama.com/cloud)
