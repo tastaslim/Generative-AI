@@ -3,7 +3,6 @@ google-genai
 openai
 python-dotenv
 anthropic
-groq
 langchain
 langchain-openai
 langchain-anthropic
@@ -13,3 +12,4 @@ streamlit
 watchdog
 langchain-redis
 langchain_community
+langchain-ollama
