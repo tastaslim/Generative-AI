@@ -1,5 +1,9 @@
 # Groq (specialized AI chips) is distinct from Elon Musk's Grok (AI chatbot)😁.
 
+Groq is a cloud AI service that runs LLMs at extremely fast inference speeds — powered by their custom LPU (Language
+Processing Unit) chip, not a GPU. LPUs are specifically designed to run LLMs, that is why LLMs running on LPUs will
+response much faster than running on GPUs/CPUs(OpenAI, Gemini etc.)
+
 # Ollama
 
 - **Ollama** is a tool that lets you run AI models locally on your own machine (no internet, no API key), privately
