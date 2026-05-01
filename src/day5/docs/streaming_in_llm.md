@@ -97,8 +97,7 @@ def chatBotWithStreaming(llmProvider: BaseChatModel) -> None:
         st.session_state.messages.append({"role": "user", "content": query})
         with st.chat_message("user"):
             st.markdown(query)
-
-        with st.chat_message("assistant"):
+        with st.chat_message("ai"):
             # ✅ st.write_stream renders tokens live
             response = st.write_stream(chain.stream(st.session_state.messages))
         st.session_state.messages.append({"role": "assistant", "content": response})
@@ -122,7 +121,17 @@ if __name__ == "__main__":
 
 ---
 
+| Feature            | .markdown()     | .write_stream()      |
+|--------------------|-----------------|----------------------|
+| Input              | Complete string | Generator / Iterator |
+| Rendering          | All at once     | Token by token       |
+| Use with           | .invoke()       | .stream()            |
+| Supports Markdown  | ✅               | ✅                    |
+| Live typing effect | ❌               | ✅                    |
+
 ## Note
 
 1. **Structured output** and **streaming** are incompatible — you can't do both together because Pydantic validation
    runs on the complete JSON object. Streaming gives partial chunks like:
+2. **"ai"** and **"assistant"** are both accepted by Streamlit for the AI role, but **"assistant"** is the standard
+   Streamlit expects internally.
