@@ -1,12 +1,10 @@
-from dotenv import load_dotenv
-
-load_dotenv()
+from typing import Optional, List, cast
 
 from dotenv import load_dotenv
+from langchain_core.language_models import BaseChatModel
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from pydantic import BaseModel, Field
-from typing import Optional, List, cast
 
 load_dotenv()
 
@@ -27,30 +25,34 @@ class Person(BaseModel):
     address: Address = Field(description="Where the person lives")
 
 
-prompt = ChatPromptTemplate.from_messages(
-    [
-        {
-            "role": "system",
-            "content": "You are an expert at extracting structured information from text.",
-        },
-        {
-            "role": "user",
-            "content": "{input}",
-        },
-    ]
-)
+class AllPersons(BaseModel):
+    persons: List[Person]
 
-groqLLM = ChatGroq(model="llama-3.3-70b-versatile")
-structuredLLM = groqLLM.with_structured_output(Person)
-chain = prompt | structuredLLM
-while True:
-    inputPrompt: str = input("User: ")
-    response: Person = cast(
-        Person,
-        chain.invoke(
+
+def structuredOutputPractice(llmProvider: BaseChatModel) -> AllPersons:
+    structuredLLM = llmProvider.with_structured_output(AllPersons)
+    prompt = ChatPromptTemplate.from_messages(
+        [
             {
-                "input": "Alice is a Python and ML engineer from London, UK. She is 28 years old."
-            }
-        ),
+                "role": "system",
+                "content": "You are an expert at extracting structured information from text.",
+            },
+            {
+                "role": "user",
+                "content": "{input}",
+            },
+        ]
     )
-    print(response.address, response.skills)
+    chain = prompt | structuredLLM
+    inputPrompt: str = input("User: ")
+    response: AllPersons = cast(
+        AllPersons,
+        chain.invoke({"input": inputPrompt}),
+    )
+    return response
+
+
+if __name__ == "__main__":
+    groqLLM = ChatGroq(model="llama-3.3-70b-versatile")
+    output = structuredOutputPractice(groqLLM)
+    print(output)
