@@ -75,5 +75,85 @@ And the agent coordinates everything.
 
 ```text
 LLM = Brain
-Agent = Brain + Memory + Hands + Decision system
+Agent = An AI Agent = LLM (brain) + Tools (hands) + Memory (notepad) + Loop (autonomy)
 ```
+
+![LLM vs Agent](llm_vs_agent_architecture.svg)
+
+---
+
+# ReAct(Reasoning + Acting)
+
+ReAct is one of the most important patterns in agentic AI. it is what turns an LLM from “just answering” into something
+that can reason + act in a loop. ReAct is the control loop that makes LLMs behave like agents instead of chatbots.
+
+**Thought → Action → Observation → Thought → Action → Observation → Thought → Action →... → Final Answer**
+
+```text
+Who is the CEO of Tesla and what is his age?
+
+Thought: I need CEO of Tesla
+Action: search("Tesla CEO")
+Observation: Elon Musk is CEO of Tesla
+
+Thought: Now I need his age
+Action: search("Elon Musk age")
+Observation: 54
+
+Final Answer: Elon Musk, 54 years old
+```
+
+## Why ReAct is powerful
+
+### 1. Breaks complex problems
+
+Instead of guessing everything in one go, it
+
+- decomposes tasks
+- reduces hallucination
+
+### 2. Enables tool usage
+
+- It works with APIs, databases, search engines, code execution.
+- It is used heavily in frameworks like LangChain.
+
+### 3. Iterative correction
+
+If something fails:
+
+- **Observation**: API failed
+- **Thought**: Try alternative API
+
+### 4.Transparent reasoning
+
+You can see how the model is thinking (useful for debugging). You see these in most LLM, where they keep on printing
+something like:
+
+thinking: some content
+thought : some content
+observation: I need to do this that blah blah blah
+
+```text
+while not done:
+    think = LLM(context)
+    action = parse(think)
+    observation = execute(action)
+    context += think + observation
+```
+
+## Where ReAct is used
+
+- Coding agents (debug → run → fix)
+- Research agents (search → read → summarize)
+- Support bots (query → fetch → respond)
+- DevOps agents (detect → analyze → act)
+
+## Agents vs ReAct
+
+- **Agent** is the system. **ReAct** is the strategy the LLM uses to think inside that system.
+- You can build an agent without **ReAct** — it will just call tools more blindly, make more mistakes, and produce no
+  auditable reasoning trace. ReAct is what gives agents the ability to self-correct mid-task.
+
+![ReaAct vs Agent](ReAct_Agent.png)
+
+
