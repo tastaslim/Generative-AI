@@ -457,8 +457,15 @@ debugging surface.
 
 ---
 
-## Next Steps in This Series
+## Best Practices
 
-- **Memory in AI Agents** — how agents remember across sessions (buffer, vector, entity memory)
-- **Multi-Agent Systems** — orchestrators, specialists, and the `spawn_agent` pattern in depth
-- **Building a production agent** — LangChain `AgentExecutor` end to end with real tools
+- LLMs are trained heavily on the programming language at which you are working on. In case of **Python**, we
+  should mostly use snake_case naming convention because they naturally associate with Python.
+- Variables, methods, classes should have proper/self-explanatory names which helps LLMs in better selection accuracy.
+- We should perefer to use Pydantic Models(if feasible) while working with Python and proper description of each
+  varibles to make LLMs produce expected results with accuracy.
+- Docstring for each method, class, enums, models should be concise so that LLM can interpret from them.
+
+```text
+"""Add two integers and return their sum."""
+```
