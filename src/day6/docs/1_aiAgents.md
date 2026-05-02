@@ -168,33 +168,33 @@ load_dotenv()
 
 
 class AddNumber(BaseModel):
-    """The model for adding numbers"""
+	"""The model for adding numbers"""
 
-    a: int = Field(description="First number")
-    b: int = Field(description="Second number")
+	a: int = Field(description="First number")
+	b: int = Field(description="Second number")
 
 
 @tool("add_number", args_schema=AddNumber)
 def add_number(a: int, b: int) -> int:
-    """Adds two numbers and returns the sum"""
-    return a + b
+	"""Adds two numbers and returns the sum"""
+	return a + b
 
 
 @tool("square_number")
 def square_number(number: int) -> int:
-    """Calculate and return square of number"""
-    return number * number
+	"""Calculate and return square of number"""
+	return number * number
 
 
 llmProvider: BaseChatModel = ChatGroq(model="llama-3.3-70b-versatile")
 number_adder_tool = create_agent(model=llmProvider, tools=[add_number, square_number])
 
 response = number_adder_tool.invoke(
-    {"messages": [{"role": "user", "content": "What is 2+3"}]}
+	{"messages": [{"role": "user", "content": "What is 2+3"}]}
 )
 for response in response["messages"]:
-    print(response)
-    print()
+	print(response)
+	print()
 
 # The output of above for loop would be:
 
@@ -214,5 +214,3 @@ content='The answer is 5.' additional_kwargs={} response_metadata={'token_usage'
 """
 
 ```
-
-

@@ -127,10 +127,10 @@ from langchain.tools import tool
 
 @tool
 def vector_search(query: str, top_k: int = 3) -> str:
-    """Search internal documents for relevant information.
+	"""Search internal documents for relevant information.
     Use this when the user asks about company data, policies, or past decisions."""
-    results = vectorstore.similarity_search(query, k=top_k)
-    return [{"chunk": r.page_content, "source": r.metadata["source"]} for r in results]
+	results = vectorstore.similarity_search(query, k=top_k)
+	return [{"chunk": r.page_content, "source": r.metadata["source"]} for r in results]
 ```
 
 ---
@@ -221,10 +221,10 @@ from langchain.tools import tool
 
 @tool
 def slack_post(channel: str, text: str) -> dict:
-    """Post a message to a Slack channel.
+	"""Post a message to a Slack channel.
     Use this to send alerts, summaries, or notifications to the team."""
-    response = slack_client.chat_postMessage(channel=channel, text=text)
-    return {"ok": response["ok"], "ts": response["ts"]}
+	response = slack_client.chat_postMessage(channel=channel, text=text)
+	return {"ok": response["ok"], "ts": response["ts"]}
 ```
 
 > **Design principle:** Action tools should be used *last* in the reasoning chain, after the agent has verified its
@@ -382,13 +382,13 @@ from langchain.tools import tool
 
 @tool
 def search(query: str) -> str:
-    """Search for information."""
+	"""Search for information."""
 
 
 # Good — tells the LLM exactly when to use it
 @tool
 def webSearch(query: str) -> str:
-    """Search the internet for current, real-time information.
+	"""Search the internet for current, real-time information.
     Use this when the user asks about recent events, live prices,
     or any data that may have changed since your training cutoff.
     Do NOT use this for historical facts you already know."""
@@ -417,7 +417,7 @@ from langchain.tools import tool
 # Bad
 @tool
 def manage_slack(action: str, channel: str, message: str = "", user: str = ""):
-    """Send messages, invite users, or create channels in Slack."""
+	"""Send messages, invite users, or create channels in Slack."""
 
 
 # Good — separate tools for separate actions
@@ -440,14 +440,14 @@ from langchain.tools import tool
 
 @tool
 def web_search(query: str) -> str:
-    """Search the internet for current information."""
-    try:
-        results = search_api.query(query)
-        return results[:3]
-    except RateLimitError:
-        return {"error": "Rate limit hit. Try again in 60 seconds."}
-    except Exception as e:
-        return {"error": f"Search failed: {str(e)}"}
+	"""Search the internet for current information."""
+	try:
+		results = search_api.query(query)
+		return results[:3]
+	except RateLimitError:
+		return {"error": "Rate limit hit. Try again in 60 seconds."}
+	except Exception as e:
+		return {"error": f"Search failed: {str(e)}"}
 ```
 
 ### 5. Log every tool call
@@ -461,6 +461,7 @@ debugging surface.
 
 - LLMs are trained heavily on the programming language at which you are working on. In case of **Python**, we
   should mostly use snake_case naming convention because they naturally associate with Python.
+  In case of **TypeScript**, you should use camelCasing.
 - Variables, methods, classes should have proper/self-explanatory names which helps LLMs in better selection accuracy.
 - We should perefer to use Pydantic Models(if feasible) while working with Python and proper description of each
   varibles to make LLMs produce expected results with accuracy.
