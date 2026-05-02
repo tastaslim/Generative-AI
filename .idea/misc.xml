@@ -3,7 +3,7 @@
   <component name="Black">
     <option name="enabledOnReformat" value="true" />
     <option name="enabledOnSave" value="true" />
-    <option name="sdkName" value="Python 3.14 (Generative-AI)" />
+    <option name="sdkName" value="Python 3.13 (Generative-AI)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (Generative-AI)" project-jdk-type="Python SDK" />
 </project>
