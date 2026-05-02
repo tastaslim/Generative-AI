@@ -130,7 +130,7 @@ You can see how the model is thinking (useful for debugging). You see these in m
 something like:
 
 thinking: some content
-thought : some content
+thought for 1 seconds
 observation: I need to do this that blah blah blah
 
 ```text
