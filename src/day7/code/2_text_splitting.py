@@ -4,9 +4,13 @@ from dotenv import load_dotenv
 from langchain_community.document_loaders import TextLoader, PyPDFLoader
 from langchain_core.documents import Document
 from langchain_text_splitters import (
-	MarkdownTextSplitter,
-	RecursiveCharacterTextSplitter,
+    MarkdownTextSplitter,
+    RecursiveCharacterTextSplitter,
 )
+
+"""
+chunk_size and chunk_overlap varies from LLMs to LLMs. These would mainly depend on the maximum context window of an LLM
+"""
 
 
 def run_pdf_splitter(file_path: str) -> List[Document]:

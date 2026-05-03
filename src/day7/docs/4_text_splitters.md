@@ -300,3 +300,78 @@ for i, chunk in enumerate(chunks):
 | `HTMLHeaderTextSplitter`         | HTML `<h>` tags                                    |
 | `RecursiveJsonSplitter`          | JSON object/array boundaries                       |
 | `from_language(Language.X)`      | Code syntax boundaries (functions, classes)        |
+
+---
+
+# chunk_size & chunk_overlap
+
+Choosing the right chunking size and overlap is crucial for optimizing performance and retrieval quality.
+
+1. **chunk_size**
+   The maximum number of characters (or tokens) allowed in a single chunk. It controls how big each piece of your
+   document is after splitting.
+    ```
+    "This is a long document..." → [chunk 1] [chunk 2] [chunk 3]
+                                     ≤500      ≤500      ≤500      (chunk_size=500)
+    ```
+
+2. **chunk_overlap**
+   The number of characters repeated between the end of one chunk and the start of the next. It prevents losing context
+   when a sentence or idea spans a boundary.
+    ```
+    chunk_size=30, chunk_overlap=10
+    
+    Chunk 1: "The server returns a status code"
+    Chunk 2:               "a status code of 200 means success"
+                            ↑─── 10 chars overlap ───↑
+    ```
+
+---
+
+## How to Decide
+
+### `chunk_size`
+
+1. **Context Window of the LLM**, The chunk must fit inside the model's context window alongside the prompt and answer.
+   If your document's complete text contents can fit into LLMs context windows, it is best to go without choose
+   chunking. This provides the best results. If your documents are larger than the context size of the LLM, Choose
+   chunking. There is no other option.
+    ```text
+    GPT-4 / Claude → 128k tokens context
+    Safe chunk: 500–1000 tokens (~2000–4000 chars)
+    ```
+
+2. **Content Type**: Depending on the nature of the text (e.g., technical documents, conversational transcripts),
+   different chunk sizes may be optimal. Dense, information-rich text might require smaller chunks to avoid missing
+   critical details.
+
+3. **Start at `200 to 500` for most cases.**
+
+---
+
+### `chunk_overlap`
+
+1. **Ensure Contextual Integrity**: The overlap should be sufficient to maintain the context between chunks. Typically,
+   an overlap of 10-20% of `chunk_size`. Never set `chunk_overlap >= chunk_size`.
+
+2. **Trade-offs**: More overlap means better context preservation but can lead to redundancy and increased computational
+   load. Find a balance based on your specific application needs.
+
+```
+
+chunk_size=500 → chunk_overlap=50–100
+chunk_size=1000 → chunk_overlap=100–200
+chunk_size=200 → chunk_overlap=20–40
+
+```
+
+---
+
+## Symptom-Based Tuning(Experiment and Adjust)
+
+| Symptom                                    | Fix                      |
+|--------------------------------------------|--------------------------|
+| Answers feel cut off or incomplete         | Increase `chunk_overlap` |
+| Retrieval returns noisy / off-topic chunks | Decrease `chunk_size`    |
+| Missing context around the answer          | Increase `chunk_size`    |
+| Too many chunks, slow retrieval            | Increase `chunk_size`    |
