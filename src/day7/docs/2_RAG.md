@@ -53,7 +53,7 @@ retraining the model.
 ## 1. Naive RAG
 
 The simplest possible version. Straight pipeline, no optimization. Just focus on the top flow(1 time process).
-![RAG](RAG_FLOW.png)
+![RAG](../images/RAG_FLOW.png)
 ---
 **How it works?**
 
@@ -93,7 +93,7 @@ Fixes the weak spots of Naive RAG — better retrieval before and after the sear
     - **Reranking** — retrieved chunks are re-scored by a second, more precise model. Best chunks rise to the top
     - **Context compression** — irrelevant sentences inside a chunk are trimmed before sending to LLM
 
-![Naive vs Advanced RAG](Naive_vs_Advance_RAG.png)
+![Naive vs Advanced RAG](../images/Naive_vs_Advance_RAG.png)
 
 ### 3. Modular RAG
 
@@ -115,7 +115,7 @@ A fixed pipeline can't handle all of these well. Modular RAG can — because it 
     - Different types of questions need completely different retrieval strategies
     - You want to add new data sources without breaking the existing system
 
-![Modular RAG](Modular_RAG.png)
+![Modular RAG](../images/Modular_RAG.png)
 
 The Router is the brain. It reads the question and decides which module(s) to activate. Results from all activated
 modules are then combined and sent to the LLM.

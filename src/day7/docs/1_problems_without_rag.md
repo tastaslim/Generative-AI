@@ -83,4 +83,4 @@ In regulated industries (finance, healthcare, legal), this is a **compliance ris
 > It has no way to look anything up at the time you ask.
 > RAG solves exactly this — by giving it the right information *at the moment of the question*.
 
-![Model Fine Tuning/Training Vs RAG](model_training_fine_tuning_vs_RAG.png)
+![Model Fine Tuning/Training Vs RAG](../images/model_training_fine_tuning_vs_RAG.png)
