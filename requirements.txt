@@ -14,3 +14,7 @@ langchain-redis
 langchain_community
 langchain-ollama
 langgraph
+pypdf
+beautifulsoup4
+wikipedia
+langchain-text-splitters
