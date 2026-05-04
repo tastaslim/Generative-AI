@@ -130,9 +130,15 @@ relevant to a query.
 - **Refinement and Output**: The generated response is sometimes refined or adjusted to ensure coherency and relevance.
   The final output is then presented as the answer to the initial query.
 
+![Vector Database](../images/vector_database.png)
 
+### Interface
 
+LangChain provides a unified interface for vector stores. This abstraction lets you switch between different
+implementations without altering your application logic, allowing you to:
 
+- **add_documents** - Add documents to the store.
+- **delete** - Remove stored documents by ID.
+- **similarity_search** - Query for semantically similar documents.
 
-
-
+[Embedding Models and Vector Stores](https://docs.langchain.com/oss/python/integrations/vectorstores#interface)
