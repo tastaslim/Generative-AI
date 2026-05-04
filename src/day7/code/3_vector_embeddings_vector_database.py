@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 
 if __name__ == "__main__":
@@ -23,3 +24,13 @@ if __name__ == "__main__":
     # print(vector)
 
     # Now, Vector embedding is created, we need to store the embeddings in vector database
+    vector_db = Chroma(
+        embedding_function=embeddings,
+        persist_directory="./chroma_langchain_db",  # Where to save data locally
+    )
+    vector_store = Chroma.from_texts(texts=texts)
+    query = "vectors embeddings"
+    results = vector_store.search(query=query, search_type="similarity")
+    for result in results:
+        print(result.page_content)
+        print(result.metadata)
